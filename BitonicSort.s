@@ -5,7 +5,7 @@
 ////////////////////////
 
 // Partner1: Shihao Shen, A15425727
-// Partner2: Zhetai Zhou, (Student ID here)
+// Partner2: Zhetai Zhou, A15428825
 
 ////////////////////////
 //                    //
