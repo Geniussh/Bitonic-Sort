@@ -28,6 +28,7 @@ LDA      X0, array
 LDA      X1, arraysize
 LDUR     X1, [X1, #0]
 BL       printList
+
 STOP
 
 ////////////////////////
