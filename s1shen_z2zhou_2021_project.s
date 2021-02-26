@@ -5,7 +5,7 @@
 ////////////////////////
 
 // Partner1: Shihao Shen, A15425727
-// Partner2: Zhetai Zhou, (Student ID here)
+// Partner2: Zhetai Zhou, A15428825
 
 ////////////////////////
 //                    //
@@ -13,26 +13,26 @@
 //                    //
 ////////////////////////
 
-ADDI X0, XZR, #32
-BL FindM
-PUTINT X0
-ADDI X0, XZR, #10
-PUTCHAR X0
+ADDI     X0, XZR, #32
+BL       FindM
+PUTINT   X0
+ADDI     X0, XZR, #10
+PUTCHAR  X0
 
-LDA X0, array
-LDA X1, arraysize
-LDUR X1, [X1, #0]
-BL printList
+LDA      X0, array
+LDA      X1, arraysize
+LDUR     X1, [X1, #0]
+BL       printList
 
-LDA X0, array
-LDA X1, arraysize
-LDUR X1, [X1, #0]
-BL BLueRecursion    
+LDA      X0, array
+LDA      X1, arraysize
+LDUR     X1, [X1, #0]
+BL       BLueRecursion    
 
-LDA X0, array
-LDA X1, arraysize
-LDUR X1, [X1, #0]
-BL printList
+LDA      X0, array
+LDA      X1, arraysize
+LDUR     X1, [X1, #0]
+BL       printList
 STOP
 
 ////////////////////////
@@ -45,23 +45,23 @@ FindM:
     // Return value at X0: the largest power of 2 less than X0
 
     // INSERT YOUR CODE HERE
-	SUBI	SP, SP, #16
-	STUR	LR, [SP, #0]
+	SUBI    SP, SP, #16
+	STUR    LR, [SP, #0]
 	
-	ADDI 	X12, XZR, #1
-	ADDI	X11, XZR, #1
+	ADDI    X12, XZR, #1
+	ADDI    X11, XZR, #1
 while:
-	CMP		X12, X0
-	B.GE	exit_FindM
-	ADD		X11, XZR, X12
-	LSL		X12, X11, #1
-	B		while
+	CMP     X12, X0
+	B.GE    exit_FindM
+	ADD     X11, XZR, X12
+	LSL     X12, X11, #1
+	B       while
 	
 exit_FindM:
-	ADD		X0, XZR, X11
-	LDUR	LR, [SP, #0]
-	ADDI 	SP, SP, #16
-	BR LR 
+	ADD     X0, XZR, X11
+	LDUR    LR, [SP, #0]
+	ADDI    SP, SP, #16
+	BR      LR 
     
 ////////////////////////
 //                    //
@@ -74,38 +74,38 @@ RedLoop:
     // X2: the largest power of 2 less than x1
     
 	// INSERT YOUR CODE HERE
-	SUBI	SP, SP, #16
-	STUR	LR, [SP, #0]
+	SUBI    SP, SP, #16
+	STUR    LR, [SP, #0]
 	
-	ADDI	X11, XZR, #0	// Set X11 to i
-	SUB		X12, X1, X2		// N - M
-	SUBI	X12, X12, #1	// Set X12 to N-M-1
+	ADDI    X11, XZR, #0	// Set X11 to i
+	SUB     X12, X1, X2		// N - M
+	SUBI    X12, X12, #1	// Set X12 to N-M-1
 for:
-	CMP		X11, X12
-	B.GT	exit_RedLoop	// exit for loop if i > N-M-1
-	ADD		X13, X11, XZR	// index i for swap
-	ADD		X14, X11, X2	// index i + M for swap
-	LSL		X13, X13, #3	// 8 * i
-	LSL		X14, X14, #3	// 8 * (i+M)
-	ADD		X13, X0, X13	// address of a[i]
-	ADD		X14, X0, X14	// address of a[i+M]
-	LDUR	X15, [X13, #0]  // a[i]
-	LDUR	X16, [X14, #0]	// a[i+M]
-	CMP		X15, X16
-	B.GT	Swap
-	ADDI	X11, X11, #1	// i++
-	B		for
+	CMP	    X11, X12
+	B.GT    exit_RedLoop	// exit for loop if i > N-M-1
+	ADD	    X13, X11, XZR	// index i for swap
+	ADD	    X14, X11, X2	// index i + M for swap
+	LSL	    X13, X13, #3	// 8 * i
+	LSL	    X14, X14, #3	// 8 * (i+M)
+	ADD	    X13, X0, X13	// address of a[i]
+	ADD	    X14, X0, X14	// address of a[i+M]
+	LDUR    X15, [X13, #0]  // a[i]
+	LDUR    X16, [X14, #0]	// a[i+M]
+	CMP	    X15, X16
+	B.GT    Swap
+	ADDI    X11, X11, #1	// i++
+	B	    for
 	
 Swap:
-	STUR	X15, [X14, #0]
-	STUR	X16, [X13, #0]
-	ADDI	X11, X11, #1	// i++
-	B		for
+	STUR    X15, [X14, #0]
+	STUR    X16, [X13, #0]
+	ADDI    X11, X11, #1	// i++
+	B       for
 
 exit_RedLoop:
-	LDUR	LR, [SP, #0]
-	ADDI 	SP, SP, #16
-	BR LR
+	LDUR    LR, [SP, #0]
+	ADDI    SP, SP, #16
+	BR      LR
     
 ////////////////////////
 //                    //
@@ -117,42 +117,42 @@ RedRecursion:
     // X1: size of the (sub)list
 
     // INSERT YOUR CODE HERE
-	SUBI	SP, SP, #64
-	STUR	LR, [SP, #0]
+	SUBI    SP, SP, #64
+	STUR    LR, [SP, #0]
 	
-	CMPI	X1, #1
-	B.LE	exit_RR
-	STUR	X0, [SP, #24]	// Caller's responsibility: save X0
-	ADD		X0, XZR, X1		// Input for FindM: X0 to be N
-	BL 		FindM
-	ADD		X2, XZR, X0		// Input for RedLoop: X2 to be M
-	LDUR	X0, [SP, #24]	// Caller's responsibility: load back X0
-	BL		RedLoop
+	CMPI    X1, #1
+	B.LE    exit_RR
+	STUR    X0, [SP, #24]	// Caller's responsibility: save X0
+	ADD	    X0, XZR, X1		// Input for FindM: X0 to be N
+	BL      FindM
+	ADD	    X2, XZR, X0		// Input for RedLoop: X2 to be M
+	LDUR    X0, [SP, #24]	// Caller's responsibility: load back X0
+	BL      RedLoop
 	
-	STUR	X0, [SP, #16]	// Caller's responsibility: save X0
-	STUR	X1, [SP, #8]	// Caller's responsibility: save sublist size N
-	STUR	X2, [SP, #48]	// Caller's responsibility: save M
-	ADD		X1, XZR, X2		// Input for RedRecursion: M in X2 stored before
-	BL		RedRecursion
-	LDUR	X0, [SP, #16]	// Caller's responsibility: load back X0
-	LDUR	X1, [SP, #8]	// Caller's responsibility: load back N
-	LDUR	X2, [SP, #48]	// Caller's responsibility: load back M
+	STUR    X0, [SP, #16]	// Caller's responsibility: save X0
+	STUR    X1, [SP, #8]	// Caller's responsibility: save sublist size N
+	STUR    X2, [SP, #48]	// Caller's responsibility: save M
+	ADD	    X1, XZR, X2		// Input for RedRecursion: M in X2 stored before
+	BL	    RedRecursion
+	LDUR    X0, [SP, #16]	// Caller's responsibility: load back X0
+	LDUR    X1, [SP, #8]	// Caller's responsibility: load back N
+	LDUR    X2, [SP, #48]	// Caller's responsibility: load back M
 	
-	STUR	X0, [SP, #40]	// Caller's responsibility: save X0
-	STUR	X1, [SP, #32]	// Caller's responsibility: save sublist size N
-	STUR	X2, [SP, #56]	// Caller's responsibility: save M
-	SUB		X1, X1, X2		// Input 2 for RedRecursion: N - M
-	LSL		X12, X2, #3		// 8 * M
-	ADD		X0, X0, X12		// Input 1 for RedRecursion: address of a[M]
-	BL		RedRecursion
-	LDUR	X0, [SP, #40]	// Caller's responsibility: load back X0
-	LDUR	X1, [SP, #32]	// Caller's responsibility: load back size N
-	LDUR	X2, [SP, #56]	// Caller's responsibility: load back M
+	STUR    X0, [SP, #40]	// Caller's responsibility: save X0
+	STUR    X1, [SP, #32]	// Caller's responsibility: save sublist size N
+	STUR    X2, [SP, #56]	// Caller's responsibility: save M
+	SUB     X1, X1, X2		// Input 2 for RedRecursion: N - M
+	LSL     X12, X2, #3		// 8 * M
+	ADD	    X0, X0, X12		// Input 1 for RedRecursion: address of a[M]
+	BL      RedRecursion
+	LDUR    X0, [SP, #40]	// Caller's responsibility: load back X0
+	LDUR    X1, [SP, #32]	// Caller's responsibility: load back size N
+	LDUR    X2, [SP, #56]	// Caller's responsibility: load back M
 
 exit_RR:
-	LDUR	LR, [SP, #0]
-	ADDI 	SP, SP, #64
-	BR LR 
+	LDUR    LR, [SP, #0]
+	ADDI    SP, SP, #64
+	BR      LR 
     
 ////////////////////////
 //                    //
@@ -165,42 +165,42 @@ BLueLoop:
     // X2: the largest power of 2 less than X1
     
     // INSERT YOUR CODE HERE
-	SUBI	SP, SP, #16
-	STUR	LR, [SP, #0]
+	SUBI    SP, SP, #16
+	STUR    LR, [SP, #0]
 	
-	ADDI	X11, XZR, #2
-	MUL		X11, X11, X2	// 2 * M
-	SUB		X11, X11, X1	// i = 2 * M - N
-	SUBI	X12, X2, #1		// Set X12 to M-1
+	ADDI    X11, XZR, #2
+	MUL     X11, X11, X2	// 2 * M
+	SUB	    X11, X11, X1	// i = 2 * M - N
+	SUBI    X12, X2, #1		// Set X12 to M-1
 for_BlueLoop:
-	CMP		X11, X12
-	B.GT	exit_BlueLoop	// exit for loop if i > N-M-1
-	ADD		X13, X11, XZR	// index i for swap 
-	ADDI	X14, XZR, #2	// 2
-	MUL		X14, X14, X2	// 2 * M
-	SUB		X14, X14, X13	// 2 * M - i
-	SUBI	X14, X14, #1	// index 2M - i - 1 for swap
-	LSL		X13, X13, #3	// 8 * i
-	LSL		X14, X14, #3	// 8 * (2M - i - 1)
-	ADD		X13, X0, X13	// address of a[i]
-	ADD		X14, X0, X14	// address of a[i+M]
-	LDUR	X15, [X13, #0]  // a[i]
-	LDUR	X16, [X14, #0]	// a[i+M]
-	CMP		X15, X16
-	B.GT	Swap_BlueLoop
-	ADDI	X11, X11, #1	// i++
-	B		for_BlueLoop
+	CMP	    X11, X12
+	B.GT    exit_BlueLoop	// exit for loop if i > N-M-1
+	ADD	    X13, X11, XZR	// index i for swap 
+	ADDI    X14, XZR, #2	// 2
+	MUL	    X14, X14, X2	// 2 * M
+	SUB	    X14, X14, X13	// 2 * M - i
+	SUBI    X14, X14, #1	// index 2M - i - 1 for swap
+	LSL	    X13, X13, #3	// 8 * i
+	LSL	    X14, X14, #3	// 8 * (2M - i - 1)
+	ADD	    X13, X0, X13	// address of a[i]
+	ADD	    X14, X0, X14	// address of a[i+M]
+	LDUR    X15, [X13, #0]  // a[i]
+	LDUR    X16, [X14, #0]	// a[i+M]
+	CMP	    X15, X16
+	B.GT    Swap_BlueLoop
+	ADDI    X11, X11, #1	// i++
+	B       for_BlueLoop
 	
 Swap_BlueLoop:
-	STUR	X15, [X14, #0]
-	STUR	X16, [X13, #0]
-	ADDI	X11, X11, #1	// i++
-	B		for_BlueLoop
+	STUR    X15, [X14, #0]
+	STUR    X16, [X13, #0]
+	ADDI    X11, X11, #1	// i++
+	B       for_BlueLoop
 
 exit_BlueLoop:
-	LDUR	LR, [SP, #0]
-	ADDI 	SP, SP, #16
-	BR LR
+	LDUR    LR, [SP, #0]
+	ADDI    SP, SP, #16
+	BR      LR
 
 ////////////////////////
 //                    //
@@ -212,63 +212,63 @@ BLueRecursion:
     // X1: size of the (sub)list
 
     // INSERT YOUR CODE HERE
-	SUBI	SP, SP, #64
-	STUR	LR, [SP, #0]
+	SUBI    SP, SP, #64
+	STUR    LR, [SP, #0]
 	
-	CMPI	X1, #1
-	B.LE	exit_BR
-	STUR	X0, [SP, #8]	// Caller's responsibility: save X0
-	ADD		X0, XZR, X1		// Input for FindM: X0 to be N
-	BL 		FindM
-	ADD		X2, XZR, X0		// Input for BlueLoop: X2 to be M
-	LDUR	X0, [SP, #8]	// Caller's responsibility: load back X0
+	CMPI    X1, #1
+	B.LE    exit_BR
+	STUR    X0, [SP, #8]	// Caller's responsibility: save X0
+	ADD	    X0, XZR, X1		// Input for FindM: X0 to be N
+	BL      FindM
+	ADD	    X2, XZR, X0		// Input for BlueLoop: X2 to be M
+	LDUR    X0, [SP, #8]	// Caller's responsibility: load back X0
 	
-	STUR	X0, [SP, #16]	// Caller's responsibility: save X0
-	STUR	X1, [SP, #24]	// Caller's responsibility: save sublist size N
-	STUR	X2, [SP, #32]	// Caller's responsibility: save M
-	ADD		X1, XZR, X2		// Input for BlueRecursion: M in X2 stored before
-	BL		BlueRecursion
-	LDUR	X0, [SP, #16]	// Caller's responsibility: load back X0
-	LDUR	X1, [SP, #24]	// Caller's responsibility: load back size N
-	LDUR	X2, [SP, #32]	// Caller's responsibility: load back M
+	STUR    X0, [SP, #16]	// Caller's responsibility: save X0
+	STUR    X1, [SP, #24]	// Caller's responsibility: save sublist size N
+	STUR    X2, [SP, #32]	// Caller's responsibility: save M
+	ADD	    X1, XZR, X2		// Input for BlueRecursion: M in X2 stored before
+	BL      BlueRecursion
+	LDUR    X0, [SP, #16]	// Caller's responsibility: load back X0
+	LDUR    X1, [SP, #24]	// Caller's responsibility: load back size N
+	LDUR    X2, [SP, #32]	// Caller's responsibility: load back M
 	
-	STUR	X0, [SP, #40]	// Caller's responsibility: save X0
-	STUR	X1, [SP, #48]	// Caller's responsibility: save sublist size N
-	STUR	X2, [SP, #56]	// Caller's responsibility: save M
-	SUB		X1, X1, X2		// Input 2 for BlueRecursion: N - M
-	LSL		X12, X2, #3		// 8 * M
-	ADD		X0, X0, X12		// Input 1 for BlueRecursion: address of a[M]
-	BL		BlueRecursion
-	LDUR	X0, [SP, #40]	// Caller's responsibility: load back X0
-	LDUR	X1, [SP, #48]	// Caller's responsibility: load back size N
-	LDUR	X2, [SP, #56]	// Caller's responsibility: load back M
+	STUR    X0, [SP, #40]	// Caller's responsibility: save X0
+	STUR    X1, [SP, #48]	// Caller's responsibility: save sublist size N
+	STUR    X2, [SP, #56]	// Caller's responsibility: save M
+	SUB	    X1, X1, X2		// Input 2 for BlueRecursion: N - M
+	LSL     X12, X2, #3		// 8 * M
+	ADD     X0, X0, X12		// Input 1 for BlueRecursion: address of a[M]
+	BL      BlueRecursion
+	LDUR    X0, [SP, #40]	// Caller's responsibility: load back X0
+	LDUR    X1, [SP, #48]	// Caller's responsibility: load back size N
+	LDUR    X2, [SP, #56]	// Caller's responsibility: load back M
 	
-	BL		BlueLoop
+	BL      BlueLoop
 	
-	STUR	X0, [SP, #16]	// Caller's responsibility: save address X0
-	STUR	X1, [SP, #24]	// Caller's responsibility: save sublist size N
-	STUR	X2, [SP, #32]	// Caller's responsibility: save M
-	ADD		X1, XZR, X2		// Input for RedRecursion: M in X2 stored before
-	BL		RedRecursion
-	LDUR	X0, [SP, #16]	// Caller's responsibility: load back address X0
-	LDUR	X1, [SP, #24]	// Caller's responsibility: load back size N
-	LDUR	X2, [SP, #32]	// Caller's responsibility: load back M
+	STUR    X0, [SP, #16]	// Caller's responsibility: save address X0
+	STUR    X1, [SP, #24]	// Caller's responsibility: save sublist size N
+	STUR    X2, [SP, #32]	// Caller's responsibility: save M
+	ADD     X1, XZR, X2		// Input for RedRecursion: M in X2 stored before
+	BL      RedRecursion
+	LDUR    X0, [SP, #16]	// Caller's responsibility: load back address X0
+	LDUR    X1, [SP, #24]	// Caller's responsibility: load back size N
+	LDUR    X2, [SP, #32]	// Caller's responsibility: load back M
 	
-	STUR	X0, [SP, #40]	// Caller's responsibility: save address X0
-	STUR	X1, [SP, #48]	// Caller's responsibility: save sublist size N
-	STUR	X2, [SP, #56]	// Caller's responsibility: save M
-	SUB		X1, X1, X2		// Input 2 for RedRecursion: N - M
-	LSL		X12, X2, #3		// 8 * M
-	ADD		X0, X0, X12		// Input 1 for RedRecursion: address of a[M]
-	BL		RedRecursion
-	LDUR	X0, [SP, #40]	// Caller's responsibility: load back address X0
-	LDUR	X1, [SP, #48]	// Caller's responsibility: load back size N
-	LDUR	X2, [SP, #56]	// Caller's responsibility: load back M
+	STUR    X0, [SP, #40]	// Caller's responsibility: save address X0
+	STUR    X1, [SP, #48]	// Caller's responsibility: save sublist size N
+	STUR    X2, [SP, #56]	// Caller's responsibility: save M
+	SUB	    X1, X1, X2		// Input 2 for RedRecursion: N - M
+	LSL     X12, X2, #3		// 8 * M
+	ADD     X0, X0, X12		// Input 1 for RedRecursion: address of a[M]
+	BL      RedRecursion
+	LDUR    X0, [SP, #40]	// Caller's responsibility: load back address X0
+	LDUR    X1, [SP, #48]	// Caller's responsibility: load back size N
+	LDUR    X2, [SP, #56]	// Caller's responsibility: load back M
 
 exit_BR:	
-	LDUR	LR, [SP, #0]
-	ADDI 	SP, SP, #64
-	BR LR
+	LDUR    LR, [SP, #0]
+	ADDI    SP, SP, #64
+	BR      LR
     
 ////////////////////////
 //                    //
@@ -279,19 +279,19 @@ printList:
     // X0: base address
     // X1: length of the array
 
-	MOV X2, XZR
-	ADDI X5, XZR, #32
-	ADDI X6, XZR, #10
+	MOV     X2, XZR
+	ADDI    X5, XZR, #32
+	ADDI    X6, XZR, #10
 printList_loop:
-    CMP X2, X1
-    B.EQ printList_loopEnd
-    LSL X3, X2, #3
-    ADD X3, X3, X0
-	LDUR X4, [X3, #0]
-    PUTINT X4
+    CMP     X2, X1
+    B.EQ    printList_loopEnd
+    LSL     X3, X2, #3
+    ADD     X3, X3, X0
+	LDUR    X4, [X3, #0]
+    PUTINT  X4
     PUTCHAR X5
-    ADDI X2, X2, #1
-    B printList_loop
+    ADDI    X2, X2, #1
+    B       printList_loop
 printList_loopEnd:    
     PUTCHAR X6
-    BR LR
+    BR      LR
